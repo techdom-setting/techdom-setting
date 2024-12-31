@@ -1,0 +1,35 @@
+version: '3'
+services:
+  lb:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    networks:
+      - my-network
+    depends_on:
+      - techdom-collector
+      - techdom-emulator
+
+  techdom-collector:
+    build:
+      context: techdom-collector
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8080"
+    networks:
+      - my-network
+
+  techdom-emulator:
+    build:
+      context: techdom-emulator
+      dockerfile: Dockerfile
+    ports:
+      - "8282:8080"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
