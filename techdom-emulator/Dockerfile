@@ -1,5 +1,4 @@
 FROM openjdk:21-jdk-slim
-MAINTAINER marcbarbosa
 ARG JAR_FILE=build/libs/*.jar
 COPY /${JAR_FILE} /app/app.jar
 WORKDIR /app
