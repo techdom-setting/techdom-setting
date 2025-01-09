@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -68,7 +68,6 @@ jobs:
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           
-          
           cd ./techdom-collector
           sudo docker build -t techdom-collector .
           IMAGE_TAG=suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
@@ -82,4 +81,31 @@ jobs:
           echo "Image Tag: $IMAGE_TAG"
           sudo docker tag techdom-emulator $IMAGE_TAG
           sudo docker push $IMAGE_TAG
+
+      - name: Connect to WAS & Execute Application (techdom-collector)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_COLLECTOR_HOST }}
+          username: ${{ secrets.EC2_COLLECTOR_USER }}
+          key: ${{ secrets.EC2_COLLECTOR_PRIVATE_KEY }}
+          script: |
+            echo "Pulling and running techdom-collector image on collector EC2..."
+            sudo docker pull suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
+            sudo docker stop techdom-collector || true
+            sudo docker rm techdom-collector || true
+            sudo docker run -d --name techdom-collector -p 8080:8080 suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
+
+#      - name: Connect to WAS & Execute Application (techdom-emulator)
+#        uses: appleboy/ssh-action@v0.1.6
+#        with:
+#          host: ${{ secrets.EMULATOR_EC2_HOST }}
+#          username: ${{ secrets.EMULATOR_EC2_USER }}
+#          key: ${{ secrets.EMULATOR_EC2_PRIVATE_KEY }}
+#          script: |
+#            echo "Pulling and running techdom-emulator image on emulator EC2..."
+#            sudo docker pull suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
+#            sudo docker stop techdom-emulator || true
+#            sudo docker rm techdom-emulator || true
+#            sudo docker run -d --name techdom-emulator -p 8081:8080 suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
+
 
