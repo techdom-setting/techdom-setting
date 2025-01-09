@@ -68,13 +68,20 @@ jobs:
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           
+          
           cd ./techdom-collector
           sudo docker build -t techdom-collector .
-          sudo docker tag techdom-collector suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
-          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
-      
-          cd ../techdom-emulator
-          sudo docker build -t techdom-emulator .
-          sudo docker tag techdom-emulator suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
-          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:${GITHUB_SHA::7}
+          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
+          echo "Image Tag: $IMAGE_TAG"
+          sudo docker tag techdom-collector $IMAGE_TAG
+          sudo docker push $IMAGE_TAG
+#          cd ./techdom-collector
+#          sudo docker build -t techdom-collector .
+#          sudo docker tag techdom-collector suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
+#          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
+#
+#          cd ../techdom-emulator
+#          sudo docker build -t techdom-emulator .
+#          sudo docker tag techdom-emulator suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
+#          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:${GITHUB_SHA::7}
 
