@@ -68,26 +68,22 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          techdom_COLLECTOR_YML: ${{ secrets.techdom_COLLECTOR_YML }}
-          techdom_EMULATOR_YML: ${{ secrets.techdom_EMULATOR_YML }}
         run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
           if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-collector/ ]]; then
             echo "Building and deploying techdom-collector"
-            cd techdom-collector
+            cd ./techdom-collector
 
             docker build -t $DOCKER_USERNAME/techdom-collector:latest .
             docker push $DOCKER_USERNAME/techdom-collector:latest
-            cd ..
           fi
 
           if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-emulator/ ]]; then
             echo "Building and deploying techdom-emulator"
-            cd techdom-emulator
+            cd ../techdom-emulator
           
             docker build -t $DOCKER_USERNAME/techdom-emulator:latest .
             docker push $DOCKER_USERNAME/techdom-emulator:latest
-            cd ..
           fi
 
