@@ -69,10 +69,10 @@ jobs:
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           
           cd ./techdom-collector
-          sudo docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/techdom-collector .
-          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector
+          sudo docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/techdom-collector:latest .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:latest
           
           cd ../techdom-emulator
-          sudo docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/techdom-emulator .
-          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator
+          sudo docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:latest .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:latest
 
