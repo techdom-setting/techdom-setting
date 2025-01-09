@@ -65,25 +65,14 @@ jobs:
 
       - name: Build and Deploy
         if: success()
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           
-          if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-collector/ ]]; then
-            echo "Building and deploying techdom-collector"
-            cd ./techdom-collector
-
-            docker build -t $DOCKER_USERNAME/techdom-collector:latest .
-            docker push $DOCKER_USERNAME/techdom-collector:latest
-          fi
-
-          if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-emulator/ ]]; then
-            echo "Building and deploying techdom-emulator"
-            cd ../techdom-emulator
+          cd ./techdom-collector
+          sudo docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/techdom-collector .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector
           
-            docker build -t $DOCKER_USERNAME/techdom-emulator:latest .
-            docker push $DOCKER_USERNAME/techdom-emulator:latest
-          fi
+          cd ../techdom-emulator
+          sudo docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKER_USERNAME }}/techdom-emulator .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator
 
