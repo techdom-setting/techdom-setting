@@ -68,7 +68,6 @@ jobs:
             ls ./src/main/resources/
             cat ./src/main/resources/application.yml
           
-            ./gradlew build
             docker build -t $DOCKER_USERNAME/techdom-emulator:latest .
             docker push $DOCKER_USERNAME/techdom-emulator:latest
             cd ..
