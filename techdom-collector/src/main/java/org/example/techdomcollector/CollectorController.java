@@ -8,6 +8,7 @@ public class CollectorController {
 
 	public void hello(){
 		new Authentication();
+		System.out.println("ㅇㅇㅇ");
 		System.out.println("dd");
 	}
 }
