@@ -36,17 +36,21 @@ jobs:
           echo DEV_MYSQL_URL=${{ secrets.DEV_MYSQL_URL }} >> .env
           echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
 
-      - name: Set up collector application.yml
+      - name: make collector application-dev.yml
+        if: contains(github.ref, 'develop')
         run: |
-          touch .techdom-collector/src/main/resources/application.yml
-          echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > .techdom-collector/src/main/resources/application.yml
-          cat .techdom-collector/src/main/resources/application.yml
+          cd .techdom-collector/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > ./application.yml
+        shell: bash
 
-      - name: Set up emulator application.yml
-        run: | 
-          touch .techdom-emulator/src/main/resources/application.yml
-          echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > .techdom-emulator/src/main/resources/application.yml
-          cat .techdom-emulator/src/main/resources/application.yml
+      - name: make emulator application-dev.yml
+        if: contains(github.ref, 'develop')
+        run: |
+          cd .techdom-collector/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > ./application.yml
+        shell: bash
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
