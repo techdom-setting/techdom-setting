@@ -35,6 +35,8 @@ jobs:
           echo DEV_MYSQL_PASSWORD=${{ secrets.DEV_MYSQL_PASSWORD }} >> .env
           echo DEV_MYSQL_URL=${{ secrets.DEV_MYSQL_URL }} >> .env
           echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
+          echo "${{ secrets.TECHDOM_COLLECTOR_YML}}" > .techdom-collector/src/main/resources/application.yml
+          echo "${{ secrets.TECHDOM_EMULATOR_YML}}" > .techdom-emulator/src/main/resources/application.yml
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
@@ -58,11 +60,6 @@ jobs:
           if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-collector/ ]]; then
             echo "Building and deploying techdom-collector"
             cd techdom-collector
-          
-            echo "$techdom_COLLECTOR_YML" > src/main/resources/application.yml
-          
-            ls ./src/main/resources/
-            cat ./src/main/resources/application.yml
 
             docker build -t $DOCKER_USERNAME/techdom-collector:latest .
             docker push $DOCKER_USERNAME/techdom-collector:latest
@@ -72,11 +69,6 @@ jobs:
           if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-emulator/ ]]; then
             echo "Building and deploying techdom-emulator"
             cd techdom-emulator
-          
-            echo "$techdom_EMULATOR_YML" > src/main/resources/application.yml
-          
-            ls ./src/main/resources/
-            cat ./src/main/resources/application.yml
           
             docker build -t $DOCKER_USERNAME/techdom-emulator:latest .
             docker push $DOCKER_USERNAME/techdom-emulator:latest
