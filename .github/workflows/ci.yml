@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-${GITHUB_SHA::7}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -70,11 +70,11 @@ jobs:
           
           cd ./techdom-collector
           docker build -t techdom-collector .
-          docker tag techdom-collector ${{ secrets.DOCKER_USERNAME }}/techdom-collector:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:latest
+          docker tag techdom-collector ${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
       
           cd ../techdom-emulator
           docker build -t techdom-emulator .
-          docker tag techdom-emulator ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:latest
+          docker tag techdom-emulator ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:${GITHUB_SHA::7}
 
