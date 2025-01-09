@@ -49,15 +49,9 @@ jobs:
       - name: make emulator application-dev.yml
         if: contains(github.ref, 'main')
         run: |
-          cd techdom-emulator
-          ls
-          cd src
-          ls
-          cd main
-          ls
-          cd resources
-#          touch .techdom-emulator/src/main/resources/application.yml
-#          echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > ./application.yml
+          cd techdom-emulator/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > ./application.yml
         shell: bash
 
       - name: Setup Gradle
