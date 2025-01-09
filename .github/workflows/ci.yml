@@ -37,7 +37,7 @@ jobs:
           echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
 
       - name: make collector application-dev.yml
-        if: contains(github.ref, 'develop')
+        if: contains(github.ref, 'main')
         run: |
           cd .techdom-collector/src/main/resources
           touch ./application.yml
@@ -45,7 +45,7 @@ jobs:
         shell: bash
 
       - name: make emulator application-dev.yml
-        if: contains(github.ref, 'develop')
+        if: contains(github.ref, 'main')
         run: |
           cd .techdom-collector/src/main/resources
           touch ./application.yml
