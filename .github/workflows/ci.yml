@@ -70,11 +70,11 @@ jobs:
           
           cd ./techdom-collector
           docker build -t techdom-collector .
-          docker tag techdom-collector:latest ${{ secrets.USERNAME }}/techdom-collector:latest
-          docker push ${{ secrets.USERNAME }}/techdom-collector:latest
+          docker tag techdom-collector ${{ secrets.DOCKER_USERNAME }}/techdom-collector:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:latest
       
           cd ../techdom-emulator
           docker build -t techdom-emulator .
-          docker tag techdom-emulator:latest ${{ secrets.USERNAME }}/techdom-emulator:latest
-          docker push ${{ secrets.USERNAME }}/techdom-emulator:latest
+          docker tag techdom-emulator ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:latest
 
