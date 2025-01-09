@@ -42,8 +42,14 @@ jobs:
         run: |
           cd techdom-collector
           ls
-          touch .techdom-collector/src/main/resources/application.yml
-          echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > ./application.yml
+          ls
+          cd src
+          ls
+          cd main
+          ls
+          cd resources
+#          touch .techdom-collector/src/main/resources/application.yml
+#          echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > ./application.yml
         shell: bash
 
       - uses: actions/checkout@v3
