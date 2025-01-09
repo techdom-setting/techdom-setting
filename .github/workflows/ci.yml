@@ -71,7 +71,7 @@ jobs:
           
           cd ./techdom-collector
           sudo docker build -t techdom-collector .
-          IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
+          IMAGE_TAG=suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
           echo "Image Tag: $IMAGE_TAG"
           sudo docker tag techdom-collector $IMAGE_TAG
           sudo docker push $IMAGE_TAG
