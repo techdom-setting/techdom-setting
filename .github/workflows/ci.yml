@@ -1,0 +1,76 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - "develop"
+    paths:
+      - 'techdom-collector/**'
+      - 'techdom-emulator/**'
+  pull_request:
+    branches:
+      - "develop"
+    paths:
+      - 'techdom-collector/**'
+      - 'techdom-emulator/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+
+      - name: Build and Deploy
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          techdom_COLLECTOR_YML: ${{ secrets.techdom_COLLECTOR_YML }}
+          techdom_EMULATOR_YML: ${{ secrets.techdom_EMULATOR_YML }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          
+          if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-collector/ ]]; then
+            echo "Building and deploying techdom-collector"
+            cd techdom-collector
+          
+            echo "$techdom_COLLECTOR_YML" > src/main/resources/application.yml
+          
+            ls ./src/main/resources/
+            cat ./src/main/resources/application.yml
+
+            docker build -t $DOCKER_USERNAME/techdom-collector:latest .
+            docker push $DOCKER_USERNAME/techdom-collector:latest
+            cd ..
+          fi
+
+          if [[ $(git diff --name-only HEAD^ HEAD) =~ ^techdom-emulator/ ]]; then
+            echo "Building and deploying techdom-emulator"
+            cd techdom-emulator
+          
+            echo "$techdom_EMULATOR_YML" > src/main/resources/application.yml
+          
+            ls ./src/main/resources/
+            cat ./src/main/resources/application.yml
+          
+            ./gradlew build
+            docker build -t $DOCKER_USERNAME/techdom-emulator:latest .
+            docker push $DOCKER_USERNAME/techdom-emulator:latest
+            cd ..
+          fi
+
