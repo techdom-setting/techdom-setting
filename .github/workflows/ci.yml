@@ -39,6 +39,7 @@ jobs:
       - name: make collector application-dev.yml
         if: contains(github.ref, 'main')
         run: |
+          mkdir .techdom-collector/src/main/resources
           cd .techdom-collector/src/main/resources
           touch ./application.yml
           echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > ./application.yml
@@ -47,7 +48,8 @@ jobs:
       - name: make emulator application-dev.yml
         if: contains(github.ref, 'main')
         run: |
-          cd .techdom-collector/src/main/resources
+          mkdir .techdom-emulator/src/main/resources
+          cd .techdom-emulator/src/main/resources
           touch ./application.yml
           echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > ./application.yml
         shell: bash
