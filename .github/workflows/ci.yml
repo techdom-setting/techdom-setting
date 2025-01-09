@@ -36,12 +36,14 @@ jobs:
           echo DEV_MYSQL_URL=${{ secrets.DEV_MYSQL_URL }} >> .env
           echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
 
-      - name: Set up application.yml
+      - name: Set up collector application.yml
         run: |
           touch .techdom-collector/src/main/resources/application.yml
           echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > .techdom-collector/src/main/resources/application.yml
           cat .techdom-collector/src/main/resources/application.yml
-          
+
+      - name: Set up emulator application.yml
+        run: | 
           touch .techdom-emulator/src/main/resources/application.yml
           echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > .techdom-emulator/src/main/resources/application.yml
           cat .techdom-emulator/src/main/resources/application.yml
