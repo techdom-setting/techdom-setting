@@ -29,12 +29,12 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          echo "=${{ secrets.DEV_MYSQL_ROOT_PASSWORD }}" >> $GITHUB_ENV
-          echo "=${{ secrets.DEV_MYSQL_DATABASE_NAME }}" >> $GITHUB_ENV
-          echo "=${{ secrets.DEV_MYSQL_USER }}" >> $GITHUB_ENV
-          echo "=${{ secrets.DEV_MYSQL_PASSWORD }}" >> $GITHUB_ENV
-          echo "=${{ secrets.DEV_MYSQL_URL }}" >> $GITHUB_ENV
-          echo "=${{ secrets.DEV_MYSQL_TIME_ZONE }}" >> $GITHUB_ENV
+          echo DEV_MYSQL_ROOT_PASSWORD=${{ secrets.DEV_MYSQL_ROOT_PASSWORD }} >> .env
+          echo DEV_MYSQL_DATABASE_NAME=${{ secrets.DEV_MYSQL_DATABASE_NAME }} >> .env
+          echo DEV_MYSQL_USER=${{ secrets.DEV_MYSQL_USER }} >> .env
+          echo DEV_MYSQL_PASSWORD=${{ secrets.DEV_MYSQL_PASSWORD }} >> .env
+          echo DEV_MYSQL_URL=${{ secrets.DEV_MYSQL_URL }} >> .env
+          echo DEV_MYSQL_TIME_ZONE=${{ secrets.DEV_MYSQL_TIME_ZONE }} >> .env
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
