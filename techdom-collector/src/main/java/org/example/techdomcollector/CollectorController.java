@@ -8,7 +8,7 @@ public class CollectorController {
 
 	public void hello(){
 		new Authentication();
-		System.out.println("ㅇㅇㅇ");
+		System.out.printf("ci test 위해 일부러 작업 변경중!!");
 		System.out.println("dd");
 	}
 }
