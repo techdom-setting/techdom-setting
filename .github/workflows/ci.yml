@@ -70,11 +70,11 @@ jobs:
           
           cd ./techdom-collector
           docker build -t techdom-collector .
-          docker tag techdom-collector ${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
+          docker tag techdom-collector suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKER_USERNAME }}/techdom-collector:${GITHUB_SHA::7}
       
           cd ../techdom-emulator
           docker build -t techdom-emulator .
-          docker tag techdom-emulator ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:${GITHUB_SHA::7}
+          docker tag techdom-emulator suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKER_USERNAME }}/techdom-emulator:${GITHUB_SHA::7}
 
