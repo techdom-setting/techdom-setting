@@ -52,6 +52,11 @@ jobs:
         run: |
           cd techdom-emulator
           ls
+          cd src
+          ls
+          cd main
+          ls
+          cd resources
           touch .techdom-emulator/src/main/resources/application.yml
           echo "${{ secrets.TECHDOM_EMULATOR_YML }}" > ./application.yml
         shell: bash
