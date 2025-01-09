@@ -40,16 +40,9 @@ jobs:
       - name: make collector application-dev.yml
         if: contains(github.ref, 'main')
         run: |
-          cd techdom-collector
-          ls
-          ls
-          cd src
-          ls
-          cd main
-          ls
-          cd resources
-#          touch .techdom-collector/src/main/resources/application.yml
-#          echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > ./application.yml
+          cd techdom-collector/src/main/resources
+          touch ./application.yml
+          echo "${{ secrets.TECHDOM_COLLECTOR_YML }}" > ./application.yml
         shell: bash
 
       - uses: actions/checkout@v3
