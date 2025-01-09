@@ -15,7 +15,7 @@ on:
       - 'techdom-emulator/**'
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +27,15 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
 
+      - name: Set up environment variables
+        run: |
+          echo "=${{ secrets.DEV_MYSQL_ROOT_PASSWORD }}" >> $GITHUB_ENV
+          echo "=${{ secrets.DEV_MYSQL_DATABASE_NAME }}" >> $GITHUB_ENV
+          echo "=${{ secrets.DEV_MYSQL_USER }}" >> $GITHUB_ENV
+          echo "=${{ secrets.DEV_MYSQL_PASSWORD }}" >> $GITHUB_ENV
+          echo "=${{ secrets.DEV_MYSQL_URL }}" >> $GITHUB_ENV
+          echo "=${{ secrets.DEV_MYSQL_TIME_ZONE }}" >> $GITHUB_ENV
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
 
@@ -37,6 +46,7 @@ jobs:
         run: ./gradlew build
 
       - name: Build and Deploy
+        if: success()
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
