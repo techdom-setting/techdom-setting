@@ -15,6 +15,7 @@ public class EmulatorController {
 
 	@GetMapping
 	public String authenticate() {
+		System.out.printf("ci test 위해 일부러 작업 변경중");
 		return emulatorService.authenticate();
 	}
 }
