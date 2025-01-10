@@ -95,17 +95,17 @@ jobs:
             sudo docker rm techdom-collector || true
             sudo docker run -d --name techdom-collector -p 8080:8080 suxxxxhyun/techdom-collector:latest
 
-#      - name: Connect to WAS & Execute Application (techdom-emulator)
-#        uses: appleboy/ssh-action@v0.1.6
-#        with:
-#          host: ${{ secrets.EMULATOR_EC2_HOST }}
-#          username: ${{ secrets.EMULATOR_EC2_USER }}
-#          key: ${{ secrets.EMULATOR_EC2_PRIVATE_KEY }}
-#          script: |
-#            echo "Pulling and running techdom-emulator image on emulator EC2..."
-#            sudo docker pull suxxxxhyun/techdom-emulator:latest
-#            sudo docker stop techdom-emulator || true
-#            sudo docker rm techdom-emulator || true
-#            sudo docker run -d --name techdom-emulator -p 8081:8080 suxxxxhyun/techdom-emulator:latest
+      - name: Connect to WAS & Execute Application (techdom-emulator)
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EMULATOR_EC2_HOST }}
+          username: ${{ secrets.EMULATOR_EC2_USER }}
+          key: ${{ secrets.EMULATOR_EC2_PRIVATE_KEY }}
+          script: |
+            echo "Pulling and running techdom-emulator image on emulator EC2..."
+            sudo docker pull suxxxxhyun/techdom-emulator:latest
+            sudo docker stop techdom-emulator || true
+            sudo docker rm techdom-emulator || true
+            sudo docker run -d --name techdom-emulator -p 8081:8080 suxxxxhyun/techdom-emulator:latest
 
 
