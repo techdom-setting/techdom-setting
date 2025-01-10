@@ -98,9 +98,9 @@ jobs:
       - name: Connect to WAS & Execute Application (techdom-emulator)
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: ${{ secrets.EMULATOR_EC2_HOST }}
-          username: ${{ secrets.EMULATOR_EC2_USER }}
-          key: ${{ secrets.EMULATOR_EC2_PRIVATE_KEY }}
+          host: ${{ secrets.EC2_EMULATOR_HOST }}
+          username: ${{ secrets.EC2_EMULATOR_USER }}
+          key: ${{ secrets.EC2_EMULATOR_PRIVATE_KEY }}
           script: |
             echo "Pulling and running techdom-emulator image on emulator EC2..."
             sudo docker pull suxxxxhyun/techdom-emulator:latest
