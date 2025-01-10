@@ -70,14 +70,14 @@ jobs:
           
           cd ./techdom-collector
           sudo docker build -t techdom-collector .
-          IMAGE_TAG=suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
+          IMAGE_TAG=suxxxxhyun/techdom-collector:latest
           echo "Image Tag: $IMAGE_TAG"
           sudo docker tag techdom-collector $IMAGE_TAG
           sudo docker push $IMAGE_TAG
 
           cd ../techdom-emulator
           sudo docker build -t techdom-emulator .
-          IMAGE_TAG=suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
+          IMAGE_TAG=suxxxxhyun/techdom-emulator:latest
           echo "Image Tag: $IMAGE_TAG"
           sudo docker tag techdom-emulator $IMAGE_TAG
           sudo docker push $IMAGE_TAG
@@ -90,10 +90,10 @@ jobs:
           key: ${{ secrets.EC2_COLLECTOR_PRIVATE_KEY }}
           script: |
             echo "Pulling and running techdom-collector image on collector EC2..."
-            sudo docker pull suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
+            sudo docker pull suxxxxhyun/techdom-collector:latest
             sudo docker stop techdom-collector || true
             sudo docker rm techdom-collector || true
-            sudo docker run -d --name techdom-collector -p 8080:8080 suxxxxhyun/techdom-collector:${GITHUB_SHA::7}
+            sudo docker run -d --name techdom-collector -p 8080:8080 suxxxxhyun/techdom-collector:latest
 
 #      - name: Connect to WAS & Execute Application (techdom-emulator)
 #        uses: appleboy/ssh-action@v0.1.6
@@ -103,9 +103,9 @@ jobs:
 #          key: ${{ secrets.EMULATOR_EC2_PRIVATE_KEY }}
 #          script: |
 #            echo "Pulling and running techdom-emulator image on emulator EC2..."
-#            sudo docker pull suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
+#            sudo docker pull suxxxxhyun/techdom-emulator:latest
 #            sudo docker stop techdom-emulator || true
 #            sudo docker rm techdom-emulator || true
-#            sudo docker run -d --name techdom-emulator -p 8081:8080 suxxxxhyun/techdom-emulator:${GITHUB_SHA::7}
+#            sudo docker run -d --name techdom-emulator -p 8081:8080 suxxxxhyun/techdom-emulator:latest
 
 
